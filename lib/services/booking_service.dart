@@ -2,14 +2,19 @@ import 'package:url_launcher/url_launcher.dart';
 import '../models/booking_models.dart';
 
 class BookingService {
-  // Ganti dengan nomor WhatsApp Anda (Gunakan kode negara, misal 62)
+  // Nomor admin tujuan pesan WhatsApp.
+  // Pastikan menggunakan format internasional, misalnya 62 untuk Indonesia.
   static const String _adminPhone = "62895336740040";
 
   static Future<bool> simpanDataKeSistem(BookingModel data) async {
     try {
+      // Coba kirim data lewat WhatsApp.
+      // Jika berhasil, kembalikan true.
       await kirimKeWhatsApp(data);
       return true;
     } catch (e) {
+      // Jika terjadi error, tangkap dan kembalikan false.
+      // Error bisa terjadi jika WhatsApp tidak dapat dibuka.
       return false;
     }
   }
@@ -30,8 +35,10 @@ class BookingService {
     );
 
     if (await canLaunchUrl(whatsappAppUri)) {
+      // Jika WhatsApp terpasang, gunakan skema aplikasi WhatsApp.
       await launchUrl(whatsappAppUri, mode: LaunchMode.externalApplication);
     } else if (await canLaunchUrl(whatsappWebUri)) {
+      // Jika aplikasi tidak tersedia, buka WhatsApp Web sebagai fallback.
       await launchUrl(whatsappWebUri, mode: LaunchMode.externalApplication);
     }
   }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+// Halaman sukses yang ditampilkan setelah pengiriman pesan berhasil.
+// Halaman ini hanya menampilkan informasi tetap dan tombol kembali.
 class SuccessScreen extends StatelessWidget {
   const SuccessScreen({super.key});
 
@@ -21,6 +23,7 @@ class SuccessScreen extends StatelessWidget {
             ),
             const SizedBox(height: 32),
             ElevatedButton(
+              // Kembali ke halaman awal dengan menutup semua route sampai route pertama.
               onPressed: () =>
                   Navigator.of(context).popUntil((route) => route.isFirst),
               child: const Text('Kembali ke Beranda'),

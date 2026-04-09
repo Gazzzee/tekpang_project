@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../models/booking_models.dart';
 import 'form_screen.dart';
 
+// HomeScreen adalah halaman utama yang menampilkan form pilihan layanan.
+// Halaman ini menggunakan StatefulWidget karena UI berubah saat pilihan dropdown berubah.
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -11,7 +13,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  // Menyimpan pilihan jenis layanan dari dropdown pengguna.
   String? selectedLayanan;
+  // Menyimpan pilihan tingkat kesulitan dari dropdown pengguna.
   String? selectedLevel;
 
   @override
@@ -23,6 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           children: [
             DropdownButtonFormField<String>(
+              // Dropdown untuk memilih jenis layanan yang dibutuhkan.
               hint: Text("Pilih Jenis Keperluan"),
               items: [
                 "Servis",
@@ -32,6 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             SizedBox(height: 20),
             DropdownButtonFormField<String>(
+              // Dropdown untuk memilih tingkat kesulitan pekerjaan.
               hint: Text("Tingkat Kesulitan"),
               items: [
                 "Ringan",
@@ -42,6 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Spacer(),
             ElevatedButton(
+              // Tombol aktif hanya ketika kedua dropdown sudah diisi.
               onPressed: (selectedLayanan != null && selectedLevel != null)
                   ? () => Navigator.push(
                       context,

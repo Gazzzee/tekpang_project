@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../models/booking_models.dart';
-import '../../services/booking_service.dart';
-import '../../screens/success_screen.dart';
+import 'package:tekpang_project/models/booking_models.dart';
+import 'package:tekpang_project/services/booking_service.dart';
+import 'package:tekpang_project/screens/success_screen.dart';
 
-// FormScreen menampilkan halaman konfirmasi sebelum data dikirim.
-// Pengguna dapat mengisi detail masalah dan nomor WhatsApp.
 class FormScreen extends StatefulWidget {
-  // Menerima objek booking dari halaman HomeScreen.
   final BookingModel booking;
   const FormScreen({super.key, required this.booking});
 
@@ -16,33 +13,22 @@ class FormScreen extends StatefulWidget {
 }
 
 class _FormScreenState extends State<FormScreen> {
-  // Controller untuk input deskripsi masalah.
   final _descCtrl = TextEditingController();
-  // Controller untuk input nomor WhatsApp.
   final _waCtrl = TextEditingController();
-  // Menandai apakah aplikasi sedang memproses submit.
   bool _isLoading = false;
 
   void _prosesSubmit() async {
-    // Tampilkan loading selama proses submit.
-    // Ini mencegah pengguna menekan tombol berulang kali.
     setState(() => _isLoading = true);
 
-    // Simpan input ke model booking yang diteruskan dari halaman sebelumnya.
-    // FormScreen menggunakan satu instance BookingModel untuk membawa data antar halaman.
     widget.booking.deskripsi = _descCtrl.text;
     widget.booking.noWhatsapp = _waCtrl.text;
 
-    // Panggil service untuk menyimpan/mengirim data.
-    // Service ini bertanggung jawab membuat pesan WhatsApp dan membuka aplikasi.
     bool sukses = await BookingService.simpanDataKeSistem(widget.booking);
 
-    // Pastikan widget masih tersedia sebelum mengubah state.
     if (!mounted) return;
 
     setState(() => _isLoading = false);
 
-    // Jika berhasil, buka halaman sukses dan ganti route saat ini.
     if (sukses) {
       Navigator.pushReplacement(
         context,
@@ -66,8 +52,6 @@ class _FormScreenState extends State<FormScreen> {
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               Text(
-                // Tampilkan ringkasan jenis layanan dan tingkat kesulitan.
-                // Ini membantu pengguna memastikan pilihan sebelum submit.
                 "${widget.booking.jenisKeperluan} - ${widget.booking.tingkatKesulitan}",
               ),
               SizedBox(height: 20),
@@ -94,8 +78,6 @@ class _FormScreenState extends State<FormScreen> {
                 width: double.infinity,
                 height: 50,
                 child: ElevatedButton(
-                  // Tombol disable saat sedang memproses.
-                  // Ini mencegah submit ganda dan menunjukkan status loading.
                   onPressed: _isLoading ? null : _prosesSubmit,
                   child: _isLoading
                       ? CircularProgressIndicator(color: Colors.white)
